@@ -1,10 +1,33 @@
+-- 5. Trigger
+CREATE TRIGGER tg_antes_de_deletar
+BEFORE DELETE ON tb_youtubers
+FOR EACH ROW
+EXECUTE FUNCTION fn_antes_de_deletar();
+
+CREATE OR REPLACE FUNCTION fn_antes_de_deletar()
+RETURNS TRIGGER  LANGUAGE plpgsql
+AS $$
+BEGIN
+    RAISE NOTICE 'Remoção de youtubers não permitida';
+
+    INSERT INTO tb_log (nome_youtuber, categoria_canal, ano_inicio)
+    VALUES (OLD.youtuber, OLD.category, OLD.started);
+
+    UPDATE tb_youtubers
+    SET ativo = 0
+    WHERE cod_youtubers = OLD.cod_youtubers;
+
+    RETURN OLD;
+END;
+$$
+
 -- 4. Tabela de Log 
-CREATE TABLE tb_log (
-    cod_log SERIAL PRIMARY KEY,
-    nome_youtuber VARCHAR(200) NOT NULL,
-    categoria_canal VARCHAR(200) NOT NULL,
-    ano_inicio VARCHAR(200) NOT NULL
-);
+-- CREATE TABLE tb_log (
+--     cod_log SERIAL PRIMARY KEY,
+--     nome_youtuber VARCHAR(200) NOT NULL,
+--     categoria_canal VARCHAR(200) NOT NULL,
+--     ano_inicio VARCHAR(200) NOT NULL
+-- );
 
 -- 3. Alter Table
 -- ALTER TABLE tb_youtubers
