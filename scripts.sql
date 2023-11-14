@@ -1,6 +1,14 @@
+-- 4. Tabela de Log 
+CREATE TABLE tb_log (
+    cod_log SERIAL PRIMARY KEY,
+    nome_youtuber VARCHAR(200) NOT NULL,
+    categoria_canal VARCHAR(200) NOT NULL,
+    ano_inicio VARCHAR(200) NOT NULL
+);
+
 -- 3. Alter Table
-ALTER TABLE tb_youtubers
-ADD COLUMN ativo INT DEFAULT 1 CHECK (ativo IN (0, 1));
+-- ALTER TABLE tb_youtubers
+-- ADD COLUMN ativo INT DEFAULT 1 CHECK (ativo IN (0, 1));
 
 -- 2. Trigger
 -- CREATE OR REPLACE TRIGGER tg_antes_do_insert
