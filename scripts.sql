@@ -1,23 +1,27 @@
+-- 3. Alter Table
+ALTER TABLE tb_youtubers
+ADD COLUMN ativo INT DEFAULT 1 CHECK (ativo IN (0, 1));
+
 -- 2. Trigger
-CREATE OR REPLACE TRIGGER tg_antes_do_insert
-BEFORE INSERT OR UPDATE ON tb_youtubers
-FOR EACH ROW 
-EXECUTE PROCEDURE fn_valor_negativo();
+-- CREATE OR REPLACE TRIGGER tg_antes_do_insert
+-- BEFORE INSERT OR UPDATE ON tb_youtubers
+-- FOR EACH ROW 
+-- EXECUTE PROCEDURE fn_valor_negativo();
 		
 
-CREATE OR REPLACE FUNCTION fn_valor_negativo()
-RETURNS TRIGGER LANGUAGE plpgsql 
-AS $$
-BEGIN
-    IF (NEW.subscribe < 0 OR NEW.video_views < 0 OR NEW.video_count < 0) THEN
-        RAISE EXCEPTION 'Valores negativos não são permitidos';
-    END IF;
-    RETURN NEW;
-END;
-$$						  
+-- CREATE OR REPLACE FUNCTION fn_valor_negativo()
+-- RETURNS TRIGGER LANGUAGE plpgsql 
+-- AS $$
+-- BEGIN
+--     IF (NEW.subscribe < 0 OR NEW.video_views < 0 OR NEW.video_count < 0) THEN
+--         RAISE EXCEPTION 'Valores negativos não são permitidos';
+--     END IF;
+--     RETURN NEW;
+-- END;
+-- $$						  
 	
-INSERT INTO tb_youtubers(rank, youtuber, subscribe, video_views, video_count, category, started) 
-VALUES(101, 'BOT', 10000000, 23908756, 50, 'Shows', '2016');
+-- INSERT INTO tb_youtubers(rank, youtuber, subscribe, video_views, video_count, category, started) 
+-- VALUES(101, 'BOT', 10000000, 23908756, 50, 'Shows', '2016');
 
 
 -- 1.Base de dados e criação de tabela
